@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Aritmatika</title>
+    <style>
+        /* Tambahkan gaya CSS untuk membuat tampilan responsif */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalkulator Aritmatika</h1>
+    <div class="container">
+        <label for="operation">Pilih Operasi:</label>
+        <select id="operation">
+            <option value="fibonacci">Deret Fibonacci</option>
+            <option value="cube">Volume Kubus</option>
+            <option value="sphere">Volume Bola</option>
+            <option value="cylinder">Volume Tabung</option>
+        </select>
+
+        <div id="inputFields">
+            <!-- Input fields for various calculations will be added here dynamically -->
+        </div>
+
+        <button id="calculateButton">Hitung</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const operationSelect = document.getElementById('operation');
+        const inputFields = document.getElementById('inputFields');
+        const calculateButton = document.getElementById('calculateButton');
+        const resultDiv = document.getElementById('result');
+
+        // Function to create input fields based on selected operation
+        function createInputFields(operation) {
+            inputFields.innerHTML = '';
+
+            if (operation === 'fibonacci') {
+                // Input for Fibonacci
+                const nInput = document.createElement('input');
+                nInput.type = 'number';
+                nInput.placeholder = 'Masukkan n';
+                inputFields.appendChild(nInput);
+            } else if (operation === 'cube') {
+                // Input for Volume of Cube
+                const sideInput = document.createElement('input');
+                sideInput.type = 'number';
+                sideInput.placeholder = 'Masukkan panjang sisi';
+                inputFields.appendChild(sideInput);
+            } else if (operation === 'sphere') {
+                // Input for Volume of Sphere
+                const radiusInput = document.createElement('input');
+                radiusInput.type = 'number';
+                radiusInput.placeholder = 'Masukkan jari-jari';
+                inputFields.appendChild(radiusInput);
+            } else if (operation === 'cylinder') {
+                // Input for Volume of Cylinder
+                const radiusInput = document.createElement('input');
+                radiusInput.type = 'number';
+                radiusInput.placeholder = 'Masukkan jari-jari';
+                inputFields.appendChild(radiusInput);
+
+                const heightInput = document.createElement('input');
+                heightInput.type = 'number';
+                heightInput.placeholder = 'Masukkan tinggi';
+                inputFields.appendChild(heightInput);
+            }
+        }
+
+        // Function to calculate Fibonacci series
+        function calculateFibonacci(n) {
+            if (n <= 0) return [];
+
+            const fibSeries = [0, 1];
+            for (let i = 2; i < n; i++) {
+                const nextValue = fibSeries[i - 1] + fibSeries[i - 2];
+                fibSeries.push(nextValue);
+            }
+            return fibSeries;
+        }
+
+        // Function to calculate the volume of a cube
+        function calculateCubeVolume(side) {
+            return side ** 3;
+        }
+
+        // Function to calculate the volume of a sphere
+        function calculateSphereVolume(radius) {
+            return (4 / 3) * Math.PI * (radius ** 3);
+        }
+
+        // Function to calculate the volume of a cylinder
+        function calculateCylinderVolume(radius, height) {
+            return Math.PI * (radius ** 2) * height;
+        }
+
+        // Event listener for operation selection change
+        operationSelect.addEventListener('change', () => {
+            const selectedOperation = operationSelect.value;
+            createInputFields(selectedOperation);
+        });
+
+        // Event listener for calculate button click
+        calculateButton.addEventListener('click', () => {
+            const selectedOperation = operationSelect.value;
+            let result;
+
+            if (selectedOperation === 'fibonacci') {
+                const n = parseInt(inputFields.querySelector('input').value);
+                const fibSeries = calculateFibonacci(n);
+                result = `Deret Fibonacci: ${fibSeries.join(', ')}`;
+            } else if (selectedOperation === 'cube') {
+                const side = parseFloat(inputFields.querySelector('input').value);
+                result = `Volume Kubus: ${calculateCubeVolume(side)}`;
+            } else if (selectedOperation === 'sphere') {
+                const radius = parseFloat(inputFields.querySelector('input').value);
+                result = `Volume Bola: ${calculateSphereVolume(radius)}`;
+            } else if (selectedOperation === 'cylinder') {
+                const radius = parseFloat(inputFields.querySelectorAll('input')[0].value);
+                const height = parseFloat(inputFields.querySelectorAll('input')[1].value);
+                result = `Volume Tabung: ${calculateCylinderVolume(radius, height)}`;
+            }
+
+            resultDiv.textContent = result;
+        });
+    </script>
+</body>
+</html>
